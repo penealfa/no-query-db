@@ -1,4 +1,4 @@
-# CLI Tool: [Tool Name]
+<!-- # CLI Tool: [Tool Name]
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -104,4 +104,22 @@ Please use the [issue tracker](https://github.com/[username]/[repository]/issues
 
 ## License
 [Tool Name] is licensed under the [License Name]. See the [LICENSE](LICENSE) file for more details.
+ -->
+# Welcome to My First Backend Mastery Project
 
+Welcome to my first project on my backend mastery journey! This is the beginning of my exploration into the world of backend development. The core essence of backend development is **DATA**, and this project focuses on understanding how databases work and how to interact with them.
+
+## Project Overview
+
+This project is a Python Command-Line Interface (CLI) tool designed to implement a simple database. It serves as an educational tool for me to understand how databases operate under the hood, including basic CRUD (Create, Read, Update, Delete) operations.
+
+## Key Features
+
+- **CLI Interface**: A simple command-line tool to interact with the database.
+- **Database Implementation**: A basic database system that can store, retrieve, update, and delete data.
+- **Learning Goal**: To gain hands-on experience with databases and Python programming.
+
+## Technologies Used
+
+- Python
+- File-based Database (or other relevant database system)
