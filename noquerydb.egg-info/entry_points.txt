@@ -1,0 +1,2 @@
+[console_scripts]
+noquerydb = no_query_db:cli
