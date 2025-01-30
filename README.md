@@ -205,7 +205,7 @@ NoqueryDB is licensed under the MIT License. See the [LICENSE](LICENSE) file for
 
 ## Support
 
-For questions, issues, or feature requests, please open an issue on the [GitHub repository](https://github.com/penealfa/noquerydb).
+For questions, issues, or feature requests, please open an issue on the [GitHub repository](https://github.com/penealfa/no-query-db).
 
 ---
 
