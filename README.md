@@ -18,7 +18,7 @@ NoqueryDB is a lightweight, JSON-based database system with a Python CLI and ORM
 
 ---
 
-## Installation
+## Installation (when it's distributed)
 
 To install NoqueryDB, use `pip`:
 
