@@ -2,6 +2,7 @@ LICENSE
 MANIFEST.in
 README.md
 no_query_db.py
+orm.py
 setup.py
 app/__init__.py
 app/__main__.py

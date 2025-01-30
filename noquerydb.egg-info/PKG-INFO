@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: noquerydb
 Version: 0.0.1
-Summary: A databse where you just use JSON to create and interact with it
+Summary: A database where you just use JSON to create and interact with it
 Home-page: <github url where the tool code will remain>
 Author: Peneal Feleke
 Author-email: penealfeleke17pro@gmail.com

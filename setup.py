@@ -1,22 +1,23 @@
 from setuptools import setup, find_packages
-# with open("README.md", "r", encoding="utf-8") as fh:
-#     long_description = fh.read()
-with open("requirements.txt", "rb") as fh:
-    requirements = fh.read()
+
 setup(
-    name = 'noquerydb',
-    version = '0.0.1',
-    author = 'Peneal Feleke',
-    author_email = 'penealfeleke17pro@gmail.com',
-    license = 'MIT License',
-    description = 'A databse where you just use JSON to create and interact with it',
-    long_description = 'long_description',
-    long_description_content_type = "text/markdown",
-    url = '<github url where the tool code will remain>',
-    py_modules = ['no_query_db', 'app'],
-    packages = find_packages(),
-    install_requires = [
-                "backports.tarfile==1.2.0",
+    name="noquerydb",
+    version="0.0.1",
+    author="Peneal Feleke",
+    author_email="penealfeleke17pro@gmail.com",
+    license="MIT License",
+    description="A database where you just use JSON to create and interact with it",
+    long_description="long_description",
+    long_description_content_type="text/markdown",
+    url="https://github.com/penealfa/noquerydb",
+    packages=find_packages(),  # Ensure it finds your package
+    include_package_data=True,  # Include extra files
+    py_modules = ['no_query_db', 'app', 'orm'],
+    package_data={
+        "noquerydb": ["orm.py"],  # Ensure orm.py is included
+    },
+    install_requires= [
+        "backports.tarfile==1.2.0",
         "certifi==2024.12.14",
         "charset-normalizer==3.4.0",
         "click==8.1.7",
@@ -47,13 +48,13 @@ setup(
         "jsonschema==4.23.0",
         "jsonschema-specifications==2024.10.1"
     ],
-    python_requires='>=3.7',
+    python_requires=">=3.7",
     classifiers=[
         "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent",
     ],
-    entry_points = '''
+    entry_points='''
         [console_scripts]
         noquerydb=no_query_db:cli
-    '''
+    ''',
 )

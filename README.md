@@ -1,125 +1,212 @@
-<!-- # CLI Tool: [Tool Name]
+# NoqueryDB Documentation
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Commands](#commands)
-- [Configuration](#configuration)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+NoqueryDB is a lightweight, JSON-based database system with a Python CLI and ORM. It allows users to define their database schema using JSON files and interact with the database using Python classes. This documentation covers the current features of NoqueryDB, with more features to come in future updates.
 
 ---
 
-## Introduction
-[Tool Name] is a Command Line Interface (CLI) tool designed to [describe purpose briefly, e.g., automate tasks, manage files, analyze data, etc.]. It is lightweight, fast, and easy to use, helping you [achieve specific goal or solve a problem].
+## Table of Contents
+1. [Installation](#installation)
+2. [Getting Started](#getting-started)
+   - [Defining the Schema](#defining-the-schema)
+   - [Initializing the Database](#initializing-the-database)
+3. [Using the ORM](#using-the-orm)
+   - [Defining Models](#defining-models)
+   - [Inserting Data](#inserting-data)
+   - [Querying Data](#querying-data)
+4. [CLI Commands](#cli-commands)
+5. [Future Features](#future-features)
 
-## Features
-- [Feature 1: Describe feature]
-- [Feature 2: Describe feature]
-- [Feature 3: Describe feature]
-- Cross-platform support (Windows, macOS, Linux)
-- Extensible and customizable
+---
 
 ## Installation
-### Prerequisites
-- [Prerequisite 1, e.g., Node.js, Python, etc. (include version)]
-- [Prerequisite 2, e.g., Git, etc.]
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/[username]/[repository].git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd [repository]
-   ```
-3. Install dependencies:
-   ```bash
-   [installation command, e.g., npm install, pip install -r requirements.txt]
-   ```
-4. Add the tool to your PATH (optional):
-   ```bash
-   [path-adding instructions]
-   ```
+To install NoqueryDB, use `pip`:
 
-## Usage
-Run the tool using the following syntax:
 ```bash
-[tool-name] [command] [options]
+pip install noquerydb
 ```
 
-### Commands
-| Command      | Description                              | Example                               |
-|--------------|------------------------------------------|---------------------------------------|
-| `help`       | Displays help information                | `[tool-name] help`                   |
-| `init`       | Initializes a new project                | `[tool-name] init`                   |
-| `build`      | Builds the project                      | `[tool-name] build --output dist`    |
-| `deploy`     | Deploys the project to the server       | `[tool-name] deploy --env production`|
+---
 
-### Options
-| Option           | Description                          |
-|------------------|--------------------------------------|
-| `-v`, `--version`| Displays the tool version            |
-| `-h`, `--help`   | Displays detailed help information   |
+## Getting Started
 
-## Configuration
-[Tool Name] allows configuration via a configuration file (e.g., `.toolrc`, `config.json`, etc.) located in your home or project directory.
+### Defining the Schema
 
-### Sample Configuration
+NoqueryDB uses two JSON files to define the database schema so create this files in a folder named database so that the cli can find it:
+1. **`main.json`**: Defines the database name.
+2. **`tables.json`**: Defines the tables and their columns.
+
+#### Example `main.json`
 ```json
 {
-  "setting1": "value1",
-  "setting2": "value2",
-  "setting3": "value3"
+    "name": "MyFirstDB"
 }
 ```
 
-## Examples
-1. Initialize a new project:
-   ```bash
-   [tool-name] init
-   ```
-2. Build a project with specific output:
-   ```bash
-   [tool-name] build --output dist
-   ```
-3. Deploy to a production environment:
-   ```bash
-   [tool-name] deploy --env production
-   ```
+#### Example `tables.json`
+```json
+{
+    "databaseName": "MyFirstDB",
+    "tables": [
+        {
+            "name": "users",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INT",
+                    "constraints": ["PRIMARY KEY", "NOT NULL", "AUTO_INCREMENT"]
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR(255)",
+                    "constraints": ["NOT NULL"]
+                },
+                {
+                    "name": "email",
+                    "type": "VARCHAR(255)",
+                    "constraints": ["NOT NULL", "UNIQUE"]
+                },
+                {
+                    "name": "created_at",
+                    "type": "TIMESTAMP",
+                    "constraints": ["DEFAULT CURRENT_TIMESTAMP"]
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Initializing the Database
+
+Use the CLI to initialize the database with the schema files:
+
+```bash
+noquerydb crdb
+```
+
+This command creates a `.db` file (e.g., `MyFirstDB.db`) that stores the database structure and data.
+
+---
+
+### Initializing the tables
+
+Use the CLI to initialize the database with the schema files:
+
+```bash
+noquerydb createtable
+```
+
+This command creates the tables in the database file.
+
+---
+
+## Using the ORM
+
+NoqueryDB provides an ORM to interact with the database using Python classes.
+
+### Defining Models
+
+Create a Python class that inherits from `BaseModel` and maps to a table in your database:
+
+```python
+from orm import BaseModel
+
+class User(BaseModel):
+    _database_name = "MyFirstDB"  # From main.json
+    _table_name = "users"         # From tables.json
+```
+
+### Inserting Data
+
+You can insert data into the database using the `save()` method. The ORM will automatically handle:
+- Auto-incrementing primary keys.
+- Default timestamps for `created_at`.
+
+```python
+# No need to provide `id` or `created_at`; they will be auto-generated
+user = User(name="Peneal", email="peneal@example.com")
+user.save()
+```
+
+### Querying Data
+
+Use the `objects()` method to retrieve all rows from a table:
+
+```python
+all_users = User.objects()
+print(all_users)
+```
+
+**Output:**
+```json
+[
+    {
+        "id": 1,
+        "name": "Peneal",
+        "email": "peneal@example.com",
+        "created_at": "2025-01-30 14:30:00"
+    }
+]
+```
+
+---
+
+## CLI Commands
+
+NoqueryDB provides the following CLI commands for now:
+
+| Command                | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `noquerydb crdb`       | Initialize the database using `main.json`.                                  |
+| `noquerydb createtable`| Initialize the tables using `tables.json`.                                  |
+| `noquerydb showtables` | Displays all the tables created in the .db file.                            |
+
+---
+
+## Future Features
+
+NoqueryDB is under active development. Here are some planned features:
+
+1. **Query Filters**:
+   - Support for filtering data (e.g., `User.objects.filter(name="Peneal")`).
+
+2. **Data Validation**:
+   - Advanced validation for data types and constraints.
+
+3. **Indexing**:
+   - Add support for indexing to improve query performance.
+
+4. **Transactions**:
+   - Support for transactions (e.g., rollback on failure).
+
+5. **API Integration**:
+   - Expose the database via a REST API.
+
+6. **CLI Enhancements**:
+   - Add commands for updating and deleting data.
+
+---
 
 ## Contributing
-Contributions are welcome! Please follow these steps:
+
+Contributions are welcome! If you'd like to contribute to NoqueryDB, please follow these steps:
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
-3. Commit your changes with a descriptive message.
-4. Submit a pull request.
+3. Submit a pull request.
 
-### Reporting Issues
-Please use the [issue tracker](https://github.com/[username]/[repository]/issues) to report bugs or request features.
+---
 
 ## License
-[Tool Name] is licensed under the [License Name]. See the [LICENSE](LICENSE) file for more details.
- -->
-# Welcome to My First Backend Mastery Project
 
-Welcome to my first project on my backend mastery journey! This is the beginning of my exploration into the world of backend development. The core essence of backend development is **DATA**, and this project focuses on understanding how databases work and how to interact with them.
+NoqueryDB is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Project Overview
+---
 
-This project is a Python Command-Line Interface (CLI) tool designed to implement a simple database. It serves as an educational tool for me to understand how databases operate under the hood, including basic CRUD (Create, Read, Update, Delete) operations.
+## Support
 
-## Key Features
+For questions, issues, or feature requests, please open an issue on the [GitHub repository](https://github.com/penealfa/noquerydb).
 
-- **CLI Interface**: A simple command-line tool to interact with the database.
-- **Database Implementation**: A basic database system that can store, retrieve, update, and delete data.
-- **Learning Goal**: To gain hands-on experience with databases and Python programming.
+---
 
-## Technologies Used
-
-- Python
-- File-based Database (or other relevant database system)
+This documentation will be updated as new features are added to NoqueryDB. Stay tuned for more! 🚀
